@@ -12,7 +12,7 @@ use wasi_preview1::WasiP1Ctx;
 use wasi_preview2::bindings::Command;
 use wasmtime::component::types::ComponentItem;
 use wasmtime::component::{self, Component, ResourceTable};
-use wasmtime::{Config, Module, Precompiled, Store};
+use wasmtime::{Config, Collector, Module, Precompiled, Store};
 use wasmtime_wasi::preview1::{self as wasi_preview1};
 use wasmtime_wasi::p2::{self as wasi_preview2};
 use wasmtime_wasi_http::bindings::ProxyPre;
@@ -69,6 +69,11 @@ impl Default for WasmtimeSandbox {
         config.parallel_compilation(!cfg!(test));
         config.wasm_component_model(true); // enable component linking
         config.async_support(true); // must be on
+
+        // -W function_references,gc -C collector=null
+        config.wasm_gc(true);
+        config.wasm_function_references(true);
+        config.collector(Collector::Null);
 
         if use_pooling_allocator_by_default() {
             let cfg = wasmtime::PoolingAllocationConfig::default();
