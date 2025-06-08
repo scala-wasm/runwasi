@@ -1,3 +1,9 @@
+```sh
+$ TARGET=aarch64-unknown-linux-musl make build-wasmtime
+```
+
+---
+
 <div align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./art/logo/runwasi_icon3.svg">
